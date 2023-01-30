@@ -20,7 +20,7 @@ const GeneratinTable = ({ data }) => {
             </td>
             <td>{data.name}</td>
             <td>{data.email}</td>
-            <td>${data.phone}</td>
+            <td>{data.phone}</td>
             <td>${data.paid}</td>
             <td className="table-actions d-flex justify-content-evenly">
                 <span>

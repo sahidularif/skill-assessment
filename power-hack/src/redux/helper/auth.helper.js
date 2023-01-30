@@ -29,36 +29,6 @@ console.log(response)
 };
 
 
-// Google signin
-const googleLogin = async () => {
-    try {
-        const res = await signInWithPopup(auth, provider)
-            .then((result) => {
-                return result
-            })
-        const credential = GoogleAuthProvider.credentialFromResult(res)
-        const token = {
-            token: credential?.accessToken
-        }
-        const user = {
-            id: res.user.uid,
-            email: res.user.email,
-            name: res.user.displayName,
-            isAdmin: false,
-        }
-        localStorage.setItem('jwt', JSON.stringify(token))
-        localStorage.setItem('user', JSON.stringify(user))
-        return {
-            jwt: token,
-            user: user,
-        }
-
-    } catch (error) {
-        return { jwt: null, user: null }
-    }
-};
-
-
 // User Logout
 const logout = () => {
     localStorage.removeItem('user');
@@ -66,27 +36,10 @@ const logout = () => {
 };
 
 
-// Jwt Verification
-const verifyJwt = async (jwt) => {
-    const response = await axios.post(
-        `API_URL/verifyJWT`,
-        { jwt }
-    );
-        console.log(response);
-    if (response.data) {
-        const jwtExpirationMs = response.data.exp * 1000;
-        return jwtExpirationMs > Date.now();
-    }
-
-    return false;
-};
-
 const authService = {
     register,
     login,
-    googleLogin,
     logout,
-    verifyJwt,
 };
 
 export default authService;

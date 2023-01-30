@@ -6,17 +6,12 @@ const serviceHandler = {}
 serviceHandler.getAllBill = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) - 1 || 0;
-    const limit = parseInt(req.query.limit) || 5;
+    const limit = parseInt(req.query.limit) || 10;
     const search = req.query.search || "";
-
-    const movies = await Movie.find({
+    console.log(search)
+    const billings = await Billing.find({
       name: { $regex: search, $options: "i" },
-      email: { $regex: search, $options: "i" },
-      phone: { $regex: search, $options: "i" },
     })
-      .where("genre")
-      .in([...genre])
-      .sort(sortBy)
       .skip(page * limit)
       .limit(limit);
 
@@ -31,7 +26,7 @@ serviceHandler.getAllBill = async (req, res, next) => {
       total,
       page: page + 1,
       limit,
-      movies,
+      billings,
     };
 
     res.status(200).json(response);
@@ -42,10 +37,20 @@ serviceHandler.getAllBill = async (req, res, next) => {
 
 }
 
+serviceHandler.getUserBill = async (req, res, next) => {
+  try {
+    const bill = Billing.find({uid: req.params.id})
+    // console.log(bill)
+    res.status(200).send(bill);
+  } catch (e) {
+    console.log(e)
+  }
+}
 serviceHandler.addBill = async (req, res, next) => {
 
   try {
     const billing = {
+      uid: req.body.uid,
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,

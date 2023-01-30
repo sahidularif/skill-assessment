@@ -1,8 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Bill from '../bill/bill';
 import Nav from '../nav/nav';
 
-const Layout = () => {
+const Layout = ({ children }) => {
+    const { jwt, user } = useSelector((state) => state.auth)
     return (
         <div className="text-center">
             <div className="row align-items-start g-0 mx-0">
@@ -10,7 +13,21 @@ const Layout = () => {
                     <Nav />
                 </div>
                 <div className="col-md-12">
-                    <Bill/>
+                    {
+                        !jwt && (
+                            <div className=''>
+                                <h6>To access billing page, you must logged in first!</h6>
+                                
+                                    <Link to="/login" className='btn btn-outline-dark'>
+                                        Login
+                                    </Link>
+                               
+                            </div>
+                        )
+                    }
+                    {
+                        children
+                    }
                 </div>
             </div>
         </div>

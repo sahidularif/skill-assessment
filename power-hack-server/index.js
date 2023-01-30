@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const cors = require('cors');
-const port = 4000 || process.env.PORT
+const port = 5000 || process.env.PORT
 const {routes } = require('./routes/routes');
 // const { productRoute } = require('./routes/services');
 require('dotenv').config();

@@ -8,6 +8,7 @@ router.post("/registration", authHandler.register)
 router.post("/login", authHandler.login)
 router.post("/add-billing", serviceHandler.addBill)
 router.get("/billing-list", serviceHandler.getAllBill)
+router.get("/billing-list/:id", serviceHandler.getUserBill)
 router.put("/update-billing/:id", serviceHandler.updateBilling)
 router.delete("/delete-billing/:id", serviceHandler.deleteBilling)
 

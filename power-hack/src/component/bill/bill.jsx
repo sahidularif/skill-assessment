@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import Modal from '../modal/Modal';
 import GeneratinTable from './generatinTable';
+import Search from './search';
 import Table from './table';
 const Bill = () => {
+    const {user} = useSelector((state)=>state.auth)
     const [success, setSuccess] = React.useState(false);
     const [openModal, setOpenModal] = React.useState(false);
     const [formData, setFormData] = React.useState({});
@@ -13,21 +16,40 @@ const Bill = () => {
     const [pending, setPending] = React.useState(false);
     const [isSuccess, setIsSuccess] = React.useState(false);
     const [data, setData] = React.useState([])
+	const [page, setPage] = React.useState(1);
+	const [search, setSearch] = React.useState("");
 
-    const API_URL = 'http://localhost:4000/api/'
+    const API_URL = 'http://localhost:5000/api/'
+    const url = `${API_URL + "billing-list"}?page=${page}&search=${search}`;
 
     React.useEffect(() => {
-
-        axios.get(API_URL + "billing-list")
+    
+        axios.get(API_URL + `billing-list/${user.id}`)
             .then((res) => {
                 console.log(res.data)
-                setData(res.data)
+                // setData(res.data.billings)
             })
             .catch((e) => {
                 console.log(e)
 
             })
     }, [formData, success])
+
+    React.useEffect(() => {
+		const getAllBillings = async () => {
+			try {
+							
+				const { data } = await axios.get(url);
+                console.log(data)
+				setData(data);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
+		getAllBillings();
+	}, [formData, success, page, search]);
+
     // console.log(data)
     const newFormData = () => {
         if (pending && formData) {
@@ -73,7 +95,7 @@ const Bill = () => {
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-2 col-form-label">Billings</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" id="inputPassword" />
+                            <Search setSearch={(search) => setSearch(search)} />
                             </div>
                         </div>
                     </div>
@@ -96,7 +118,7 @@ const Bill = () => {
             <div className='container billing-table shadow mt-2'>
                 <div className='row'>
                     <Table 
-                    billings={data} 
+                    billings={data.billings ? data.billings : []} 
                     newFormData={newFormData}
                     setModalData={setModalData} 
                     setOpenModal={setOpenModal}

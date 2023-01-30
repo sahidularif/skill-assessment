@@ -6,6 +6,7 @@ import Signin from './component/auth/signin';
 import PrivateOutlet from './gurd/privateOutlet';
 import Home from './component/pages/home';
 import Registration from './component/auth/registration';
+import Bill from './component/bill/bill';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,12 +15,11 @@ function App() {
 
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Layout />} />
         <Route path="/login" element={<Signin />} />
         <Route path="/signup" element={<Registration />} />
         <Route path="billings" element={<PrivateOutlet />}>
-          <Route path="/billings" element={<Layout />} />
-          {/* <Route path="articles" element={<Admin chield={<Article />} />} /> */}
+          <Route path="/billings" element={<Layout children={<Bill />} />} />
         </Route>
       </Routes>
     </BrowserRouter>

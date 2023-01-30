@@ -12,9 +12,10 @@ import { clearMessage } from "../../redux/slice/messages";
 const Modal = ({ setIsSuccess, setPending, setFormData, open, onClose, data, }) => {
 
   const [success, setSuccess] = React.useState(false)
-  const API_URL = 'http://localhost:4000/api/'
+  const API_URL = 'http://localhost:5000/api/'
   const dispatch = useDispatch()
   const {message} = useSelector((state) => state.messages)
+  const {user} = useSelector((state) => state.auth)
 
   if (!open) return null;
 
@@ -51,9 +52,8 @@ const Modal = ({ setIsSuccess, setPending, setFormData, open, onClose, data, }) 
         setFormData(res.data)
       } else {
         console.log('insert')
-        const res = await axios.post('http://localhost:4000/api/add-billing', {
-          name, email, phone
-        })
+        const doc = {...formValue , uid: user.id}
+        const res = await axios.post('http://localhost:5000/api/add-billing', doc)
         setIsSuccess(true)
         setPending(false)
         setFormData(res.data)

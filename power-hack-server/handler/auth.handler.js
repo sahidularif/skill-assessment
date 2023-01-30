@@ -51,6 +51,7 @@ authHandler.register = async (req, res, next) => {
 
 // User Login & Jwt token
 authHandler.login = (req, res, next) => {
+  console.log(req.body)
   User.findOne({ email: req.body.email })
 
     .then((data) => {
@@ -77,11 +78,10 @@ authHandler.login = (req, res, next) => {
                 id: data._id,
                 name: data.name,
                 email: data.email,
-                isAdmin: data.isAdmin,
               },
             },
-            `${process.env.JWT_SECRET}`,
-            { expiresIn: "1h" }
+            `POWERHACK.COM`,
+            { expiresIn: 60*2 }
           );
 
           //   return success response
@@ -92,6 +92,7 @@ authHandler.login = (req, res, next) => {
         })
         // catch error if password do not match
         .catch((error) => {
+          console.log(error)
           res.status(400).send({
             message: "Passwords does not match",
             error,
@@ -108,12 +109,4 @@ authHandler.login = (req, res, next) => {
     });
 };
 
-authHandler.verifyToken = (req, res, next) => {
-  const token = req.body.jwt;
-  if (token == null) return res.sendStatus(401);
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(403).send("Invalid auth token...");
-    res.status(200).json({ decoded });
-  })
-}
 module.exports = authHandler;

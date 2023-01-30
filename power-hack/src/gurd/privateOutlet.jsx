@@ -19,5 +19,12 @@ export default function PrivateOutlet() {
         if (!jwt && !isValidJWT) return;
     }, [])
 
-    return jwt ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
+    return (jwt && isValidJWT) ?
+        <Outlet />
+        :
+        <Navigate
+            to={{
+                pathname: '/login',
+                state: { from: location },
+            }} />;
 }
