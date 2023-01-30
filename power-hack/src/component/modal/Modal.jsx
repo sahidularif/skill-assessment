@@ -12,7 +12,7 @@ import { clearMessage } from "../../redux/slice/messages";
 const Modal = ({ setIsSuccess, setPending, setFormData, open, onClose, data, }) => {
 
   const [success, setSuccess] = React.useState(false)
-  const API_URL = 'http://localhost:5000/api/'
+  const API_URL = 'https://nervous-teal-binturong.cyclic.app/api/'
   const dispatch = useDispatch()
   const {message} = useSelector((state) => state.messages)
   const {user} = useSelector((state) => state.auth)
@@ -53,7 +53,7 @@ const Modal = ({ setIsSuccess, setPending, setFormData, open, onClose, data, }) 
       } else {
         console.log('insert')
         const doc = {...formValue , uid: user.id}
-        const res = await axios.post('http://localhost:5000/api/add-billing', doc)
+        const res = await axios.post('https://nervous-teal-binturong.cyclic.app/api/add-billing', doc)
         setIsSuccess(true)
         setPending(false)
         setFormData(res.data)

@@ -19,7 +19,7 @@ const Bill = () => {
 	const [page, setPage] = React.useState(1);
 	const [search, setSearch] = React.useState("");
 
-    const API_URL = 'http://localhost:5000/api/'
+    const API_URL = 'https://nervous-teal-binturong.cyclic.app/api/'
     const url = `${API_URL + "billing-list"}?page=${page}&search=${search}`;
 
     React.useEffect(() => {

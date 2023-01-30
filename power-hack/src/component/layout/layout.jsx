@@ -14,20 +14,9 @@ const Layout = ({ children }) => {
                 </div>
                 <div className="col-md-12">
                     {
-                        !jwt && (
-                            <div className=''>
-                                <h6>To access billing page, you must logged in first!</h6>
-                                
-                                    <Link to="/login" className='btn btn-outline-dark'>
-                                        Login
-                                    </Link>
-                               
-                            </div>
-                        )
-                    }
-                    {
                         children
                     }
+                    
                 </div>
             </div>
         </div>
